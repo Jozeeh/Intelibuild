@@ -4,6 +4,7 @@
   "package": "org.jozeeh.intelibuild.client.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "DoItemPickMixin"
   ],
   "injectors": {
     "defaultRequire": 1
