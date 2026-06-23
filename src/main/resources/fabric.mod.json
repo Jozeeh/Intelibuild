@@ -5,7 +5,7 @@
 
   "name": "Intelibuild",
   "description": "Mod de utilidades para builders y desarrolladores.",
-  "authors": [],
+  "authors": ["Jozeeh"],
   "contact": {
     "sources": "https://github.com/Jozeeh/Intelibuild"
   },
