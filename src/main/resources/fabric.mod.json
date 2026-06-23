@@ -4,9 +4,11 @@
   "version": "${version}",
 
   "name": "Intelibuild",
-  "description": "",
+  "description": "Mod de utilidades para builders y desarrolladores.",
   "authors": [],
-  "contact": {},
+  "contact": {
+    "sources": "https://github.com/Jozeeh/Intelibuild"
+  },
 
   "license": "MIT",
   "icon": "assets/intelibuild/icon.png",
@@ -30,5 +32,13 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.blockartistry.art"
+      }
+    }
   }
 }

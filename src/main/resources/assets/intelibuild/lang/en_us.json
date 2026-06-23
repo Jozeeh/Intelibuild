@@ -1,4 +1,11 @@
 {
   "key.intelibuild.copy_block_state": "Copy Block State",
-  "key.category.intelibuild.category": "Intelibuild"
+  "key.intelibuild.toggle_id_panel": "Toggle ID Panel",
+  "key.category.intelibuild.category": "Intelibuild",
+
+  "intelibuild.id_panel.tab.hotbar": "Hotbar",
+  "intelibuild.id_panel.tab.inventory": "Inventory",
+
+  "modmenu.source": "Repositorio",
+  "modmenu.discord": "Discord"
 }

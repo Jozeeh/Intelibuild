@@ -7,6 +7,7 @@ import net.minecraft.util.Identifier;
 
 public final class ModKeyBindings {
     public static KeyBinding COPY_BLOCK_STATE;
+    public static KeyBinding TOGGLE_ID_PANEL;
 
     private static final KeyBinding.Category INTELIBUILD_CATEGORY =
         KeyBinding.Category.create(Identifier.of("intelibuild", "category"));
@@ -21,5 +22,12 @@ public final class ModKeyBindings {
             INTELIBUILD_CATEGORY
         );
         KeyBindingHelper.registerKeyBinding(COPY_BLOCK_STATE);
+
+        TOGGLE_ID_PANEL = new KeyBinding(
+            "key.intelibuild.toggle_id_panel",
+            InputUtil.GLFW_KEY_F6,
+            INTELIBUILD_CATEGORY
+        );
+        KeyBindingHelper.registerKeyBinding(TOGGLE_ID_PANEL);
     }
 }
