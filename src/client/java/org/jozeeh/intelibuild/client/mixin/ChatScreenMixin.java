@@ -25,7 +25,7 @@ public abstract class ChatScreenMixin {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void intelibuild$onInit(CallbackInfo ci) {
-        idPanel = new IdPanelWidget(id -> this.insertText(id, true));
+        idPanel = new IdPanelWidget(id -> this.insertText(id, false));
     }
 
     @Inject(method = "render", at = @At("RETURN"))
