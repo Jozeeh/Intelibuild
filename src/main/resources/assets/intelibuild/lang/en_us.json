@@ -5,6 +5,7 @@
 
   "intelibuild.id_panel.tab.hotbar": "Hotbar",
   "intelibuild.id_panel.tab.inventory": "Inventory",
+  "intelibuild.id_panel.add_namespace": "add 'minecraft:'",
 
   "modmenu.source": "Repositorio",
   "modmenu.discord": "Discord"

@@ -22,6 +22,8 @@ public class IdPanelWidget extends ClickableWidget {
     private static final int ITEM_SPACING = 2;
     private static final int CELL_SIZE = ITEM_SIZE + ITEM_SPACING;
     private static final int HOTBAR_TEXT_OFFSET = 6;
+    private static final int CHECKBOX_HEIGHT = 18;
+    private static final int CHECKBOX_SIZE = 10;
 
     private static final int COLOR_PANEL_BG = 0x90000000;
     private static final int COLOR_TAB_ACTIVE = 0x80404040;
@@ -31,9 +33,12 @@ public class IdPanelWidget extends ClickableWidget {
     private static final int COLOR_TAB_TEXT_INACTIVE = 0xFFAAAAAA;
     private static final int COLOR_HOVER = 0x40FFFFFF;
     private static final int COLOR_ID_YELLOW = 0xFFFFE800;
+    private static final int COLOR_SLOT_BORDER = 0xFFFFFFFF;
+    private static final int COLOR_CHECKED = 0xFF2E98FF;
 
     private static IdPanelTab currentTab = IdPanelTab.HOTBAR;
     private static boolean panelVisible = true;
+    private static boolean includeNamespace = true;
 
     private final Consumer<String> insertCallback;
 
@@ -54,6 +59,14 @@ public class IdPanelWidget extends ClickableWidget {
         Window window = McClient.getWindow();
         setX(window.getScaledWidth() - PANEL_WIDTH);
         setY(5);
+    }
+
+    private String getId(ItemStack stack) {
+        String id = Registries.ITEM.getId(stack.getItem()).toString();
+        if (includeNamespace) {
+            return id;
+        }
+        return id.startsWith("minecraft:") ? id.substring("minecraft:".length()) : id;
     }
 
     @Override
@@ -78,6 +91,8 @@ public class IdPanelWidget extends ClickableWidget {
             case HOTBAR -> renderHotbar(context, mouseX, mouseY, contentX, contentY);
             case INVENTORY -> renderInventory(context, mouseX, mouseY, contentX, contentY);
         }
+
+        renderCheckbox(context, mouseX, mouseY, px, py);
     }
 
     private void renderTabs(DrawContext context, int mouseX, int mouseY, int px, int py) {
@@ -117,7 +132,7 @@ public class IdPanelWidget extends ClickableWidget {
             }
 
             int rowY = y + row * CELL_SIZE;
-            if (rowY + ITEM_SIZE > getY() + PANEL_HEIGHT) {
+            if (rowY + ITEM_SIZE > getY() + PANEL_HEIGHT - CHECKBOX_HEIGHT) {
                 break;
             }
 
@@ -130,7 +145,7 @@ public class IdPanelWidget extends ClickableWidget {
             context.drawItem(stack, x, rowY);
             context.drawStackOverlay(tr, stack, x, rowY);
 
-            String id = Registries.ITEM.getId(stack.getItem()).toString();
+            String id = getId(stack);
             context.drawTextWithShadow(tr, id, x + ITEM_SIZE + HOTBAR_TEXT_OFFSET, rowY + (ITEM_SIZE - 8) / 2, COLOR_ID_YELLOW);
 
             row++;
@@ -172,6 +187,32 @@ public class IdPanelWidget extends ClickableWidget {
         }
     }
 
+    private void renderCheckbox(DrawContext context, int mouseX, int mouseY, int px, int py) {
+        int checkX = px + PADDING;
+        int checkY = py + PANEL_HEIGHT - CHECKBOX_HEIGHT;
+        int boxX = checkX;
+        int boxY = checkY + (CHECKBOX_HEIGHT - CHECKBOX_SIZE) / 2;
+
+        boolean isHovered = mouseX >= checkX && mouseX < px + PANEL_WIDTH
+            && mouseY >= checkY && mouseY < checkY + CHECKBOX_HEIGHT;
+        if (isHovered) {
+            context.fill(checkX - 1, checkY, px + PANEL_WIDTH, checkY + CHECKBOX_HEIGHT, COLOR_TAB_HOVER);
+        }
+
+        context.fill(boxX + 1, boxY + 1, boxX + CHECKBOX_SIZE - 1, boxY + CHECKBOX_SIZE - 1,
+            includeNamespace ? COLOR_CHECKED : COLOR_PANEL_BG);
+        int boxRight = boxX + CHECKBOX_SIZE;
+        int boxBottom = boxY + CHECKBOX_SIZE;
+        context.fill(boxX, boxY, boxRight, boxY + 1, COLOR_SLOT_BORDER);
+        context.fill(boxX, boxBottom - 1, boxRight, boxBottom, COLOR_SLOT_BORDER);
+        context.fill(boxX, boxY, boxX + 1, boxBottom, COLOR_SLOT_BORDER);
+        context.fill(boxRight - 1, boxY, boxRight, boxBottom, COLOR_SLOT_BORDER);
+
+        TextRenderer tr = McClient.getTextRenderer();
+        String label = Text.translatable("intelibuild.id_panel.add_namespace").getString();
+        context.drawTextWithShadow(tr, label, boxX + CHECKBOX_SIZE + 4, checkY + (CHECKBOX_HEIGHT - 8) / 2, COLOR_ID_YELLOW);
+    }
+
     @Override
     public boolean mouseClicked(net.minecraft.client.gui.Click click, boolean hasShiftDown) {
         if (!panelVisible) {
@@ -195,6 +236,12 @@ public class IdPanelWidget extends ClickableWidget {
             if (tabIndex >= 0 && tabIndex < IdPanelTab.values().length) {
                 currentTab = IdPanelTab.values()[tabIndex];
             }
+            return true;
+        }
+
+        int checkY = py + PANEL_HEIGHT - CHECKBOX_HEIGHT;
+        if (mouseY >= checkY && mouseY < py + PANEL_HEIGHT) {
+            includeNamespace = !includeNamespace;
             return true;
         }
 
@@ -226,7 +273,7 @@ public class IdPanelWidget extends ClickableWidget {
 
             int rowY = y + row * CELL_SIZE;
             if (mouseY >= rowY && mouseY < rowY + ITEM_SIZE && mouseX >= x && mouseX < x + maxWidth) {
-                String id = Registries.ITEM.getId(stack.getItem()).toString();
+                String id = getId(stack);
                 insertCallback.accept(id);
                 return;
             }
@@ -259,7 +306,7 @@ public class IdPanelWidget extends ClickableWidget {
                 int itemY = y + row * CELL_SIZE;
                 if (mouseX >= itemX && mouseX < itemX + ITEM_SIZE
                     && mouseY >= itemY && mouseY < itemY + ITEM_SIZE) {
-                    String id = Registries.ITEM.getId(stack.getItem()).toString();
+                    String id = getId(stack);
                     insertCallback.accept(id);
                     return;
                 }
