@@ -1,33 +1,33 @@
 package org.jozeeh.intelibuild.client.keybinding;
 
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.Identifier;
 
 public final class ModKeyBindings {
-    public static KeyBinding COPY_BLOCK_STATE;
-    public static KeyBinding TOGGLE_ID_PANEL;
+    public static KeyMapping COPY_BLOCK_STATE;
+    public static KeyMapping TOGGLE_ID_PANEL;
 
-    private static final KeyBinding.Category INTELIBUILD_CATEGORY =
-        KeyBinding.Category.create(Identifier.of("intelibuild", "category"));
+    private static final KeyMapping.Category INTELIBUILD_CATEGORY =
+        KeyMapping.Category.register(Identifier.fromNamespaceAndPath("intelibuild", "category"));
 
     private ModKeyBindings() {
     }
 
     public static void register() {
-        COPY_BLOCK_STATE = new KeyBinding(
+        COPY_BLOCK_STATE = new KeyMapping(
             "key.intelibuild.copy_block_state",
-            InputUtil.GLFW_KEY_LEFT_CONTROL,
+            InputConstants.KEY_LCONTROL,
             INTELIBUILD_CATEGORY
         );
-        KeyBindingHelper.registerKeyBinding(COPY_BLOCK_STATE);
+        KeyMappingHelper.registerKeyMapping(COPY_BLOCK_STATE);
 
-        TOGGLE_ID_PANEL = new KeyBinding(
+        TOGGLE_ID_PANEL = new KeyMapping(
             "key.intelibuild.toggle_id_panel",
-            InputUtil.GLFW_KEY_F6,
+            InputConstants.KEY_F6,
             INTELIBUILD_CATEGORY
         );
-        KeyBindingHelper.registerKeyBinding(TOGGLE_ID_PANEL);
+        KeyMappingHelper.registerKeyMapping(TOGGLE_ID_PANEL);
     }
 }

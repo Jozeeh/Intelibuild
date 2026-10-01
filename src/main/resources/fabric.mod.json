@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "intelibuild",
+  "id": "${id}",
   "version": "${version}",
 
-  "name": "Intelibuild",
+  "name": "${name}",
   "description": "Mod de utilidades para builders y desarrolladores.",
   "authors": ["Jozeeh"],
   "contact": {
@@ -29,9 +29,10 @@
   ],
 
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=${loader}",
     "fabric-api": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft}",
+    "java": ">=25"
   },
 
   "custom": {

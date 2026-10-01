@@ -1,21 +1,21 @@
 package org.jozeeh.intelibuild.client.util;
 
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 public final class TextComponents {
     private TextComponents() {
     }
 
-    public static Text literal(String text) {
-        return Text.literal(text);
+    public static Component literal(String text) {
+        return Component.literal(text);
     }
 
-    public static Text translatable(String key, Object... args) {
-        return Text.translatable(key, args);
+    public static Component translatable(String key, Object... args) {
+        return Component.translatable(key, args);
     }
 
-    public static Text literal(String text, Formatting formatting) {
-        return Text.literal(text).formatted(formatting);
+    public static Component literal(String text, ChatFormatting formatting) {
+        return Component.literal(text).withStyle(formatting);
     }
 }
